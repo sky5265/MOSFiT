@@ -16,13 +16,13 @@
     },
     "vt":{
         "kind":"parameter",
-        "value":4.0E4,
+        "value":1.0,
         "class":"parameter",
         "latex":"v_t"
     },
     "Me":{
         "kind":"parameter",
-        "value":0.7,
+        "value":1.0,
         "class":"parameter",
         "latex":"M_e"
     },
@@ -60,7 +60,7 @@
         "class":"parameter",
         "latex":"\\kappa_\\gamma\\,({\\rm cm}^{2}\\,{\\rm g}^{-1})"
     },
-    "mejecta":{
+    "mejecta1":{
         "kind":"parameter",
         "value":1.0,
         "class":"parameter",
@@ -71,6 +71,61 @@
         "value":1.0e4,
         "class":"parameter",
         "latex":"v_{\\rm ej}\\,({\\rm km\\,s}^{-1})"
+    },
+    "nickelcobalt":{
+        "kind":"engine",
+        "inputs":[
+            "densetimes",
+            "mejecta",
+            "fnickel",
+            "texplosion"
+        ]
+    },
+    "mejecta":{
+        "kind":"utility",
+        "operator":"+",
+        "operands":[
+                "mejecta",
+                "Me"
+        ],
+        "inputs":[
+                "mejecta",
+                "Me"
+        ],
+        "result":"mejecta",
+        "wants_dense":true,
+        "class":"operator"
+    },
+    "diffusion":{
+        "kind":"transform",
+        "inputs":[
+            "nickelcobalt",
+            "kappa",
+            "kappagamma",
+            "mejecta",
+            "texplosion",
+            "vejecta"
+        ]
+    },
+    "temperature_floor":{
+        "kind":"photosphere",
+        "inputs":[
+            "texplosion",
+            "diffusion",
+            "temperature"
+        ]
+    },
+    "blackbody1":{
+        "kind":"sed",
+        "class":"blackbody",
+        "inputs":[
+            "texplosion",
+            "redshift",
+            "temperature_floor"
+        ],
+        "requests":{
+            "band_wave_ranges": "photometry"
+        }
     },
     "shockcoolingpiro":{
         "kind":"engine",
@@ -90,21 +145,24 @@
             "shockcoolingpiro"
         ]
     },
-    "blackbody":{
+    "blackbody2":{
         "kind":"sed",
+        "class":"blackbody",
         "inputs":[
             "texplosion",
             "redshift",
-            "piro_expanding_cooling_shock"
+            "piro_expanding_cooling_shock",
+            "blackbody1"
         ],
         "requests":{
+            "seds":"blackbody1",
             "band_wave_ranges": "photometry"
         }
     },
     "losextinction":{
         "kind":"sed",
         "inputs":[
-            "blackbody",
+            "blackbody2",
             "nhhost",
             "rvhost",
             "ebv"

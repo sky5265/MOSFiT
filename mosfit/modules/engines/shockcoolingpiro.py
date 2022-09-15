@@ -21,12 +21,14 @@ class ShockCoolingPiro(Engine):
         """Process module."""
         self._times = kwargs[self.key('dense_times')]
         self._Re = kwargs[self.key('Re')] * 6.957e10 #goes from units of solar radii to cm
-        self._vt = kwargs[self.key('vt')] * 1e9 #I'm not really sure, but I have to think this takes us into cm/sec from something that..isn't..that...
+        self._vt = kwargs[self.key('vt')] * 1e5 #I'm not really sure, but I have to think this takes us into cm/sec from km/sec
         self._Me = kwargs[self.key('Me')] * 2e33 #goes from solar mass units to grams
         self._kappa = kwargs[self.key('kappa')]
         n = 10.0
         delta = 1.1
         K = 0.119
+        
+        #print("vt: "+str(self._vt))
         
         #v_t = (()/())**0.5*()**0.5
 

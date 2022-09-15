@@ -14,20 +14,20 @@
     },
     "Me":{
         "min_value":0.1,
-        "max_value":1.0,
+        "max_value":2.0,
         "log":false
     },
     "Re":{
         "min_value":1.0,
-        "max_value":14.0,
-        "log":false
+        "max_value":100.0,
+        "log":true
     },
     "vt":{
         "class":"gaussian",
         "mu":4.00e4,
         "sigma":1e3,
         "min_value":3.9e4,
-        "max_value":4.1e4   
+        "max_value":4.1e4
     },
     "temperature":{
     "class":"gaussian",
@@ -35,7 +35,7 @@
     "sigma":1.0e3,
         "min_value":3.0e3,
         "max_value":1.0e4
-    },    
+    },
     "variance":{
         "min_value":1.0e-3,
         "max_value":100.0,
