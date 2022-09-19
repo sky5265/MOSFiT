@@ -8,6 +8,12 @@
         ],
         "latex":"E({\\rm B} - {\\rm V})"
     },
+    "fnickel":{
+        "kind":"parameter",
+        "value":1.0,
+        "class":"parameter",
+        "latex":"f_{\\rm Ni}"
+    },
     "Re":{
         "kind":"parameter",
         "value":10.0,
@@ -60,7 +66,7 @@
         "class":"parameter",
         "latex":"\\kappa_\\gamma\\,({\\rm cm}^{2}\\,{\\rm g}^{-1})"
     },
-    "mejecta1":{
+    "mejecta":{
         "kind":"parameter",
         "value":1.0,
         "class":"parameter",
@@ -72,16 +78,7 @@
         "class":"parameter",
         "latex":"v_{\\rm ej}\\,({\\rm km\\,s}^{-1})"
     },
-    "nickelcobalt":{
-        "kind":"engine",
-        "inputs":[
-            "densetimes",
-            "mejecta",
-            "fnickel",
-            "texplosion"
-        ]
-    },
-    "mejecta":{
+    "m_total_diffusion":{
         "kind":"utility",
         "operator":"+",
         "operands":[
@@ -92,9 +89,20 @@
                 "mejecta",
                 "Me"
         ],
-        "result":"mejecta",
-        "wants_dense":true,
+        "result":"m_total_diffusion",
         "class":"operator"
+    },
+    "nickelcobalt":{
+        "kind":"engine",
+        "inputs":[
+            "densetimes",
+            "mejecta",
+            "fnickel",
+            "texplosion"
+        ],
+        "replacements":{
+            "luminosities":"nickel_cobalt_luminosities"
+        }
     },
     "diffusion":{
         "kind":"transform",
@@ -102,10 +110,14 @@
             "nickelcobalt",
             "kappa",
             "kappagamma",
-            "mejecta",
+            "m_total_diffusion",
             "texplosion",
             "vejecta"
-        ]
+        ],
+        "replacements":{
+            "mejecta":"m_total_diffusion",
+            "luminosities":"nickel_cobalt_luminosities"
+        }
     },
     "temperature_floor":{
         "kind":"photosphere",
@@ -113,7 +125,10 @@
             "texplosion",
             "diffusion",
             "temperature"
-        ]
+        ],
+        "replacements":{
+            "luminosities":"nickel_cobalt_luminosities"
+        }
     },
     "blackbody1":{
         "kind":"sed",
@@ -125,6 +140,9 @@
         ],
         "requests":{
             "band_wave_ranges": "photometry"
+        },
+        "replacements":{
+            "luminosities":"nickel_cobalt_luminosities"
         }
     },
     "shockcoolingpiro":{
@@ -134,22 +152,27 @@
             "Me",
             "Re",
             "vt",
-            "kappa"
-        ]
+            "kappa",
+            "texplosion"
+        ],
+        "replacements":{
+            "luminosities":"piro_luminosities"
+        }
     },
     "piro_expanding_cooling_shock":{
         "kind":"photosphere",
         "inputs":[
-            "texplosion",
-            "temperature",
-            "shockcoolingpiro"
-        ]
+            "shockcoolingpiro",
+            "texplosion"
+        ],
+        "replacements":{
+            "luminosities":"piro_luminosities"
+        }
     },
     "blackbody2":{
         "kind":"sed",
         "class":"blackbody",
         "inputs":[
-            "texplosion",
             "redshift",
             "piro_expanding_cooling_shock",
             "blackbody1"

@@ -39,30 +39,37 @@ class PiroExpandingCoolingShock(Photosphere):
         K = 0.119
         
         t_ph = ((3.*self._kappa * K * self._Me)/(2*(n-1.)*self._vt**2.))**0.5
+        ts_day = [x - self._rest_t_explosion  for x in self._times]
         
-        ts = [
-            np.inf if self._rest_t_explosion > x else
-            (x - self._rest_t_explosion) for x in self._times
-        ]
+        rphot = []
+        for i in range(len(ts_day)):
+            t_day = ts_day[i]
+            t = t_day * 86400.
+            if t_day < 0:
+                r = 0.0
+            elif t < t_ph:
+                r = (t_ph/t)**(2./(n-1))*self._vt*t
+            else:
+                #r = (((delta-1)/(n-1))*((t/t_ph)**2.-1)+1)**(-1./(delta-1))*self._vt*t
+                r = ((((delta-1)/(n-1))*(t**2/t_ph**2-1))+1)**(-1./(delta-1))*self._vt*t
+            rphot.append(r)
         
-        self._rad = [(t_ph/t)**(2./(n-1))*self._vt*t if t < t_ph else (((delta-1)/(n-1))*((t/t_ph)**2.-1)+1)**(-1./(delta-1))*vt*t for t in ts]
-        
-        
-        rphot = self._rad
         Tphot = []
         
-        #still need to figure out how to get Temperatures..
         
         for li, lum in enumerate(self._luminosities):
 
             if lum == 0.0:
                 temperature = 0.0
             else:
-                temperature = (lum / (self.STEF_CONST * self._rad[li])) ** 0.25
+                temperature = (lum / (self.STEF_CONST * rphot[li]**2. * 4 * np.pi)) ** 0.25
 
             
 
             Tphot.append(temperature)
+        #print("Luminosity: "+str(self._luminosities))
+        #print("Temperatures: "+str(Tphot))
+        #print("radius: "+str(rphot))
 
         return {self.key('radiusphot'): rphot,
                 self.key('temperaturephot'): Tphot}

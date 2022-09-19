@@ -26,6 +26,8 @@ class NickelCobalt(Engine):
         ts = np.empty_like(self._times)
         t_inds = self._times >= self._rest_t_explosion
         ts[t_inds] = self._times[t_inds] - self._rest_t_explosion
+        
+        #print("nickelcobalt engine, ts: "+str(ts))
 
         luminosities = np.zeros_like(self._times)
         luminosities[t_inds] = self._mnickel * (
