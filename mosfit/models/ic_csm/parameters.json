@@ -23,11 +23,9 @@
         "log":true
     },
     "vt":{
-        "class":"gaussian",
-        "mu":4.00e4,
-        "sigma":1e3,
-        "min_value":3.9e4,
-        "max_value":4.1e4
+        "min_value":1.0e2,
+        "max_value":1.0e5,
+        "log":true
     },
     "temperature":{
         "min_value":1.0e2,
