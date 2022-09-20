@@ -180,6 +180,9 @@
         "requests":{
             "seds":"blackbody1",
             "band_wave_ranges": "photometry"
+        },
+        "replacements":{
+            "luminosities":"piro_luminosities"
         }
     },
     "losextinction":{
@@ -192,6 +195,9 @@
         ],
         "requests":{
             "band_wave_ranges": "photometry"
+        },
+        "replacements":{
+            "luminosities":"piro_luminosities"
         }
     },
     "photometry":{
@@ -204,6 +210,9 @@
         "inputs":[
             "losextinction",
             "lumdist"
-        ]
+        ],
+        "replacements":{
+            "luminosities":"piro_luminosities"
+        }
     }
 }
