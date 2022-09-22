@@ -66,25 +66,5 @@
         "min_value":1.0e-3,
         "max_value":1.0,
         "log":true
-    },
-    "radiussource":{
-        "min_value":1.0e10,
-        "max_value":1.0e16,
-        "log":true
-    },
-    "f0":{
-        "min_value":1.0e-30,
-        "max_value":1.0e-22,
-        "log":true
-    },
-    "p":{
-        "min_value":1,
-        "max_value":3,
-        "log":false
-    },
-    "numax":{
-        "min_value":1.0e6,
-        "max_value":1.0e12,
-        "log":true
     }
 }

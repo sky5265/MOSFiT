@@ -78,26 +78,6 @@
         "class":"parameter",
         "latex":"v_{\\rm ej}\\,({\\rm km\\,s}^{-1})"
     },
-    "radiussource":{
-        "kind":"parameter",
-        "value":1.0e13,
-        "class":"parameter"
-    },
-    "f0":{
-        "kind":"parameter",
-        "value":1.0e-26,
-        "class":"parameter"
-    },
-    "p":{
-        "kind":"parameter",
-        "value":2.5,
-        "class":"parameter"
-    },
-    "numax":{
-        "kind":"parameter",
-        "value":1.0e9,
-        "class":"parameter"
-    },
     "m_total_diffusion":{
         "kind":"utility",
         "operator":"+",
@@ -205,26 +185,10 @@
             "luminosities":"piro_luminosities"
         }
     },
-    "synchrotron":{
-        "kind":"sed",
-        "inputs":[
-            "blackbody2",
-            "radiussource",
-            "f0",
-            "p",
-            "numax"
-        ],
-        "requests":{
-            "band_wave_ranges": "photometry"
-        },
-        "replacements":{
-            "luminosities":"piro_luminosities"
-        }
-    },
     "losextinction":{
         "kind":"sed",
         "inputs":[
-            "synchrotron",
+            "blackbody2",
             "nhhost",
             "rvhost",
             "ebv"
