@@ -15,6 +15,15 @@
         "latex":"n_{\\rm H,host}",
         "derived_keys":"avhost"
     },
+    "texplosion":{
+        "kind":"parameter",
+        "value":0.0,
+        "class":"parameter",
+        "latex":"t_{\\rm exp}\\,{\\rm (days)}",
+        "requests":{
+            "min_times": "transient"
+        }
+    },
     "Re":{
         "kind":"parameter",
         "value":10.0,
@@ -33,15 +42,7 @@
         "class":"parameter",
         "latex":"M_e"
     },
-    "texplosion":{
-        "kind":"parameter",
-        "value":0.0,
-        "class":"parameter",
-        "latex":"t_{\\rm exp}\\,{\\rm (days)}",
-        "requests":{
-            "min_times": "transient"
-        }
-    },
+    
     "temperature1":{
         "kind":"parameter",
         "value":1.0e4,
