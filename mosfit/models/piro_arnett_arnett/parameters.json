@@ -20,10 +20,8 @@
     },
     "Me":{
         "min_value":0.1,
-        "max_value":2.0,
-        "log":false
+        "max_value":2.0
     },
-    
     "temperature1":{
         "min_value":1.0e2,
         "max_value":1.0e6,
@@ -33,10 +31,11 @@
         "min_value":1.0e-3,
         "max_value":1.0,
         "log":true
-    }
+    },
     "kappa1":{
         "min_value":0.05,
-        "max_value":0.2
+        "max_value":0.2,
+        "log":false
     },
     "kappagamma1":{
         "min_value":0.1,
@@ -62,17 +61,18 @@
         "min_value":1.0e-3,
         "max_value":1.0,
         "log":true
-    }
+    },
     "kappa2":{
         "min_value":0.05,
-        "max_value":0.2
+        "max_value":0.2,
+        "log":false
     },
     "kappagamma2":{
         "min_value":0.1,
         "max_value":1.0e4,
         "log":true
     },
-    "mejecta2":{
+    "m2":{
         "min_value":1.0e-3,
         "max_value":100.0,
         "log":true

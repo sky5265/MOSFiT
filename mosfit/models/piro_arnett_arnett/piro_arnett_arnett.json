@@ -42,144 +42,170 @@
         "class":"parameter",
         "latex":"M_e"
     },
-    
     "temperature1":{
         "kind":"parameter",
         "value":1.0e4,
         "class":"parameter",
-        "latex":"T_{\\min}\\,{\\rm (K)}"
+        "latex":"T_{\\min~1}\\,{\\rm (K)}"
     },
     "fnickel1":{
         "kind":"parameter",
         "value":1.0,
         "class":"parameter",
-        "latex":"f_{\\rm Ni}"
+        "latex":"f_{\\rm Ni~1}"
     },
     "kappa1":{
         "kind":"parameter",
         "value":0.2,
         "class":"parameter",
-        "latex":"\\kappa\\,({\\rm cm}^{2}\\,{\\rm g}^{-1})"
+        "latex":"\\kappa\\,({~1\\rm cm}^{2}\\,{\\rm g}^{-1})"
     },
     "kappagamma1":{
         "kind":"parameter",
         "value":10.0,
         "class":"parameter",
-        "latex":"\\kappa_\\gamma\\,({\\rm cm}^{2}\\,{\\rm g}^{-1})"
+        "latex":"\\kappa_\\gamma\\,({~1\\rm cm}^{2}\\,{\\rm g}^{-1})"
     },
     "m1":{
         "kind":"parameter",
         "value":1.0,
         "class":"parameter",
-        "latex":"M_{\\rm ej}\\,(M_\\odot)"
+        "latex":"M_1, (M_\\odot)"
     },
     "vejecta1":{
         "kind":"parameter",
         "value":1.0e4,
         "class":"parameter",
-        "latex":"v_{\\rm ej}\\,({\\rm km\\,s}^{-1})"
+        "latex":"v_{~1\\rm ej}\\,({\\rm km\\,s}^{-1})"
     },
     "temperature2":{
         "kind":"parameter",
         "value":1.0e4,
         "class":"parameter",
-        "latex":"T_{\\min}\\,{\\rm (K)}"
+        "latex":"T_{~2\\min}\\,{\\rm (K)}"
     },
     "fnickel2":{
         "kind":"parameter",
         "value":1.0,
         "class":"parameter",
-        "latex":"f_{\\rm Ni}"
+        "latex":"f_{~2\\rm Ni}"
     },
     "kappa2":{
         "kind":"parameter",
         "value":0.2,
         "class":"parameter",
-        "latex":"\\kappa\\,({\\rm cm}^{2}\\,{\\rm g}^{-1})"
+        "latex":"\\kappa\\,({~2\\rm cm}^{2}\\,{\\rm g}^{-1})"
     },
     "kappagamma2":{
         "kind":"parameter",
         "value":10.0,
         "class":"parameter",
-        "latex":"\\kappa_\\gamma\\,({\\rm cm}^{2}\\,{\\rm g}^{-1})"
+        "latex":"\\kappa_\\gamma\\,({~2\\rm cm}^{2}\\,{\\rm g}^{-1})"
     },
-    "mejecta2":{
+    "m2":{
         "kind":"parameter",
         "value":1.0,
         "class":"parameter",
-        "latex":"M_{\\rm ej}\\,(M_\\odot)"
+        "latex":"M_2, (M_\\odot)"
     },
     "vejecta2":{
         "kind":"parameter",
         "value":1.0e4,
         "class":"parameter",
-        "latex":"v_{\\rm ej}\\,({\\rm km\\,s}^{-1})"
+        "latex":"v_{~2\\rm ej}\\,({\\rm km\\,s}^{-1})"
     },
-    "mejecta1":{
+    "m12":{
         "kind":"utility",
         "operator":"+",
         "operands":[
                 "m1",
-                "mejecta2"
+                "m2"
         ],
         "inputs":[
                 "m1",
-                "mejecta2"
+                "m2"
         ],
-        "result":"mejecta1",
+        "result":"m12",
         "class":"operator"
         
     },
-    "m_total_diffusion":{
+    "m12e":{
         "kind":"utility",
         "operator":"+",
         "operands":[
-                "mejecta1",
+                "m12",
                 "Me"
         ],
         "inputs":[
-                "mejecta1",
+                "m12",
                 "Me"
         ],
-        "result":"m_total_diffusion",
+        "result":"m12e",
+        "class":"operator"
+    },
+    "m2e":{
+        "kind":"utility",
+        "operator":"+",
+        "operands":[
+                "m2",
+                "Me"
+        ],
+        "inputs":[
+                "m2",
+                "Me"
+        ],
+        "result":"m2e",
         "class":"operator"
     },
     "nickelcobalt1":{
         "kind":"engine",
+        "class":"nickelcobalt",
         "inputs":[
             "densetimes",
-            "mejecta1",
+            "m1",
             "fnickel1",
             "texplosion"
         ],
         "replacements":{
-            "luminosities":"nickel_cobalt1_luminosities"
+            "luminosities":"nickel_cobalt1_luminosities",
+            "fnickel":"fnickel1",
+            "mejecta":"m1"
         }
     },
     "diffusion1":{
         "kind":"transform",
+        "class":"diffusion",
         "inputs":[
             "nickelcobalt1",
             "kappa1",
             "kappagamma1",
-            "m_total_diffusion",
+            "m12e",
             "texplosion",
             "vejecta1"
         ],
         "replacements":{
-            "mejecta":"m_total_diffusion",
-            "luminosities":"nickel_cobalt1_luminosities"
+            "mejecta":"m12e",
+            "luminosities":"nickel_cobalt1_luminosities",
+            "kappa":"kappa1",
+            "kappagamma":"kappagamma1",
+            "vejecta":"vejecta1"
         }
     },
     "temperature_floor1":{
         "kind":"photosphere",
+        "class":"temperature_floor",
         "inputs":[
             "texplosion",
             "diffusion1",
             "temperature1"
         ],
         "replacements":{
-            "luminosities":"nickel_cobalt1_luminosities"
+            "luminosities":"nickel_cobalt1_luminosities",
+            "temperature":"temperature1",
+            "fnickel":"fnickel1",
+            "kappa":"kappa1",
+            "kappagamma":"kappagamma1",
+            "vejecta":"vejecta1"
         }
     },
     "blackbody1":{
@@ -199,40 +225,53 @@
     },
     "nickelcobalt2":{
         "kind":"engine",
+        "class":"nickelcobalt",
         "inputs":[
             "densetimes",
-            "mejecta2",
+            "m2",
             "fnickel2",
             "texplosion"
         ],
         "replacements":{
-            "luminosities":"nickel_cobalt2_luminosities"
+            "luminosities":"nickel_cobalt2_luminosities",
+            "fnickel":"fnickel2",
+            "mejecta":"m2"
         }
     },
     "diffusion2":{
         "kind":"transform",
+        "class":"diffusion",
         "inputs":[
             "nickelcobalt2",
             "kappa2",
             "kappagamma2",
-            "m_total_diffusion",
+            "m2e",
             "texplosion",
             "vejecta2"
         ],
         "replacements":{
-            "mejecta":"m_total_diffusion",
-            "luminosities":"nickel_cobalt2_luminosities"
+            "mejecta":"m2e",
+            "luminosities":"nickel_cobalt2_luminosities",
+            "kappa":"kappa2",
+            "kappagamma":"kappagamma2",
+            "vejecta":"vejecta2"
         }
     },
     "temperature_floor2":{
         "kind":"photosphere",
+        "class":"temperature_floor",
         "inputs":[
             "texplosion",
             "diffusion2",
             "temperature2"
         ],
         "replacements":{
-            "luminosities":"nickel_cobalt2_luminosities"
+            "luminosities":"nickel_cobalt2_luminosities",
+            "temperature":"temperature2",
+            "fnickel":"fnickel2",
+            "kappa":"kappa2",
+            "kappagamma":"kappagamma2",
+            "vejecta":"vejecta2"
         }
     },
     "blackbody2":{
@@ -257,11 +296,12 @@
             "Me",
             "Re",
             "vt",
-            "kappa",
+            "kappa1",
             "texplosion"
         ],
         "replacements":{
-            "luminosities":"piro_luminosities"
+            "luminosities":"piro_luminosities",
+            "kappa":"kappa1"
         }
     },
     "piro_expanding_cooling_shock":{
@@ -271,7 +311,8 @@
             "texplosion"
         ],
         "replacements":{
-            "luminosities":"piro_luminosities"
+            "luminosities":"piro_luminosities",
+            "kappa":"kappa1"
         }
     },
     "blackbody3":{
@@ -293,7 +334,7 @@
     "losextinction":{
         "kind":"sed",
         "inputs":[
-            "blackbody2",
+            "blackbody3",
             "nhhost",
             "rvhost",
             "ebv"
