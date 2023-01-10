@@ -104,7 +104,7 @@
     },
     "m2":{
         "kind":"parameter",
-        "value":0.1,
+        "value":1.0,
         "class":"parameter",
         "latex":"M_2, (M_\\odot)"
     },
@@ -277,52 +277,11 @@
             "luminosities":"nickel_cobalt2_luminosities"
         }
     },
-    "shockcoolingpiro":{
-        "kind":"engine",
-        "inputs":[
-            "densetimes",
-            "Me",
-            "Re",
-            "vt",
-            "kappa1",
-            "texplosion"
-        ],
-        "replacements":{
-            "luminosities":"piro_luminosities",
-            "kappa":"kappa1"
-        }
-    },
-    "piro_expanding_cooling_shock":{
-        "kind":"photosphere",
-        "inputs":[
-            "shockcoolingpiro",
-            "texplosion"
-        ],
-        "replacements":{
-            "luminosities":"piro_luminosities",
-            "kappa":"kappa1"
-        }
-    },
-    "blackbody3":{
-        "kind":"sed",
-        "class":"blackbody",
-        "inputs":[
-            "redshift",
-            "piro_expanding_cooling_shock",
-            "blackbody2"
-        ],
-        "requests":{
-            "seds":"blackbody2",
-            "band_wave_ranges": "photometry"
-        },
-        "replacements":{
-            "luminosities":"piro_luminosities"
-        }
-    },
+    
     "losextinction":{
         "kind":"sed",
         "inputs":[
-            "blackbody3",
+            "blackbody2",
             "nhhost",
             "rvhost",
             "ebv"
@@ -331,7 +290,7 @@
             "band_wave_ranges": "photometry"
         },
         "replacements":{
-            "luminosities":"piro_luminosities"
+            "luminosities":"nickel_cobalt2_luminosities"
         }
     },
     "photometry":{
@@ -346,7 +305,7 @@
             "lumdist"
         ],
         "replacements":{
-            "luminosities":"piro_luminosities"
+            "luminosities":"nickel_cobalt2_luminosities"
         }
     }
 }
