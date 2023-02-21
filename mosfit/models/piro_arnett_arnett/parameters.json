@@ -19,8 +19,9 @@
         "log":true
     },
     "Me":{
-        "min_value":0.1,
-        "max_value":2.0
+        "min_value":1.0e-3,
+        "max_value":100.0,
+        "log":true
     },
     "temperature1":{
         "min_value":1.0e2,

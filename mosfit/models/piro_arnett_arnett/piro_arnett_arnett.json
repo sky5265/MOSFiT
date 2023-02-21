@@ -163,6 +163,9 @@
         "kind":"transform",
         "class":"diffusion",
         "inputs":[
+            "m1",
+            "m2",
+            "Me",
             "nickelcobalt1",
             "kappa1",
             "kappagamma1",
@@ -229,6 +232,8 @@
         "kind":"transform",
         "class":"diffusion",
         "inputs":[
+            "m2",
+            "Me",
             "nickelcobalt2",
             "kappa2",
             "kappagamma2",
