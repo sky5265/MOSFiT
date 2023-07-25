@@ -24,23 +24,11 @@
             "min_times": "transient"
         }
     },
-    "Re":{
-        "kind":"parameter",
-        "value":10.0,
-        "class":"parameter",
-        "latex":"r_e"
-    },
-    "vt":{
-        "kind":"parameter",
-        "value":1.0e3,
-        "class":"parameter",
-        "latex":"v_t"
-    },
-    "Me":{
+    "m3":{
         "kind":"parameter",
         "value":1.0,
         "class":"parameter",
-        "latex":"M_e"
+        "latex":"M_3"
     },
     "temperature1":{
         "kind":"parameter",
@@ -54,17 +42,17 @@
         "class":"parameter",
         "latex":"f_{~1\\rm Ni}"
     },
-    "kappa1":{
+    "kappa12":{
         "kind":"parameter",
         "value":0.15,
         "class":"parameter",
-        "latex":"\\kappa\\,({~1\\rm cm}^{2}\\,{\\rm g}^{-1})"
+        "latex":"\\kappa\\,({~1,2\\rm cm}^{2}\\,{\\rm g}^{-1})"
     },
-    "kappagamma1":{
+    "kappagamma12":{
         "kind":"parameter",
         "value":10.0,
         "class":"parameter",
-        "latex":"\\kappa_\\gamma\\,({~1\\rm cm}^{2}\\,{\\rm g}^{-1})"
+        "latex":"\\kappa_\\gamma\\,({~1,2\\rm cm}^{2}\\,{\\rm g}^{-1})"
     },
     "m1":{
         "kind":"parameter",
@@ -90,18 +78,6 @@
         "class":"parameter",
         "latex":"f_{~2\\rm Ni}"
     },
-    "kappa2":{
-        "kind":"parameter",
-        "value":0.15,
-        "class":"parameter",
-        "latex":"\\kappa_2\\,({\\rm cm}^{2}\\,{\\rm g}^{-1})"
-    },
-    "kappagamma2":{
-        "kind":"parameter",
-        "value":10.0,
-        "class":"parameter",
-        "latex":"\\kappa_\\gamma\\,({~2\\rm cm}^{2}\\,{\\rm g}^{-1})"
-    },
     "m2":{
         "kind":"parameter",
         "value":1.0,
@@ -114,34 +90,34 @@
         "class":"parameter",
         "latex":"v_{~2\\rm ej}\\,({\\rm km\\,s}^{-1})"
     },
-    "m12e":{
+    "m123":{
         "kind":"utility",
         "operator":"+",
         "operands":[
                 "m1",
                 "m2",
-                "Me"
+                "m3"
         ],
         "inputs":[
                 "m1",
                 "m2",
-                "Me"
+                "m3"
         ],
-        "result":"m12e",
+        "result":"m123",
         "class":"operator"
     },
-    "m2e":{
+    "m23":{
         "kind":"utility",
         "operator":"+",
         "operands":[
                 "m2",
-                "Me"
+                "m3"
         ],
         "inputs":[
                 "m2",
-                "Me"
+                "m3"
         ],
-        "result":"m2e",
+        "result":"m23",
         "class":"operator"
     },
     "nickelcobalt1":{
@@ -165,19 +141,19 @@
         "inputs":[
             "m1",
             "m2",
-            "Me",
+            "m3",
             "nickelcobalt1",
-            "kappa1",
-            "kappagamma1",
-            "m12e",
+            "kappa12",
+            "kappagamma12",
+            "m123",
             "texplosion",
             "vejecta1"
         ],
         "replacements":{
-            "mejecta":"m12e",
+            "mejecta":"m123",
             "luminosities":"nickel_cobalt1_luminosities",
-            "kappa":"kappa1",
-            "kappagamma":"kappagamma1",
+            "kappa":"kappa12",
+            "kappagamma":"kappagamma12",
             "vejecta":"vejecta1"
         }
     },
@@ -193,8 +169,8 @@
             "luminosities":"nickel_cobalt1_luminosities",
             "temperature":"temperature1",
             "fnickel":"fnickel1",
-            "kappa":"kappa1",
-            "kappagamma":"kappagamma1",
+            "kappa":"kappa12",
+            "kappagamma":"kappagamma12",
             "vejecta":"vejecta1"
         }
     },
@@ -233,19 +209,19 @@
         "class":"diffusion",
         "inputs":[
             "m2",
-            "Me",
+            "m3",
             "nickelcobalt2",
-            "kappa2",
-            "kappagamma2",
-            "m2e",
+            "kappa12",
+            "kappagamma12",
+            "m23",
             "texplosion",
             "vejecta2"
         ],
         "replacements":{
-            "mejecta":"m2e",
+            "mejecta":"m23",
             "luminosities":"nickel_cobalt2_luminosities",
-            "kappa":"kappa2",
-            "kappagamma":"kappagamma2",
+            "kappa":"kappa12",
+            "kappagamma":"kappagamma12",
             "vejecta":"vejecta2"
         }
     },
@@ -261,8 +237,8 @@
             "luminosities":"nickel_cobalt2_luminosities",
             "temperature":"temperature2",
             "fnickel":"fnickel2",
-            "kappa":"kappa2",
-            "kappagamma":"kappagamma2",
+            "kappa":"kappa12",
+            "kappagamma":"kappagamma12",
             "vejecta":"vejecta2"
         }
     },
