@@ -7,7 +7,11 @@ from astropy import constants as c
 from astropy import units as u
 from mosfit.constants import FOUR_PI
 from mosfit.modules.seds.sed import SED
-
+import os
+import sys
+sys.path.insert(0, os.environ['astro_code_dir'])
+from Astro_useful_funcs import *
+from Analysis_useful_funcs import *
 
 # Important: Only define one ``Module`` class per file.
 
@@ -34,6 +38,7 @@ class Blackbody(SED):
         xc = self.X_CONST  # noqa: F841
         fc = self.FLUX_CONST  # noqa: F841
         cc = self.C_CONST
+        radius_phot = self._radius_phot
         temperature_phot = self._temperature_phot
 
         # Some temp vars for speed.
@@ -44,6 +49,26 @@ class Blackbody(SED):
         seds = []
         rest_wavs_dict = {}
         evaled = False
+
+        #print("lumkey: "+str(lum_key))
+        #print("radius_phot shape: "+str(len(self._radius_phot)))
+        #print("temperature_phot shape: "+str(len(self._temperature_phot)))
+
+        
+        dir_to_write = "engine_num"
+        if 'pure_pow' in lum_key:
+            dir_to_write+='1'
+        elif 'nickel_cobalt1' in lum_key:
+            dir_to_write+='2'
+        elif 'nickel_cobalt2' in lum_key:
+            dir_to_write+='3'
+        dir_to_write+='/'
+        mkdir(dir_to_write)
+
+
+
+        #print("radiusphot: "+str(self._radius_phot))
+        #print("temperature_phot: "+str(self._temperature_phot))
 
         for li, lum in enumerate(self._luminosities):
             bi = self._band_indices[li]
@@ -62,6 +87,9 @@ class Blackbody(SED):
             radius_phot = self._radius_phot[li]  # noqa: F841
             temperature_phot = self._temperature_phot[li]  # noqa: F841
 
+
+
+
             if not evaled:
                 seds.append(ne.evaluate(
                     'fc * radius_phot**2 / rest_wavs**5 / '
@@ -73,6 +101,10 @@ class Blackbody(SED):
             seds[-1][np.isnan(seds[-1])] = 0.0
 
         seds = self.add_to_existing_seds(seds, **kwargs)
+        write_to_file(dir_to_write+"r_phot.txt", self._radius_phot, append = False)
+        write_to_file(dir_to_write+"t_phot.txt", self._temperature_phot, append = False)
+        
+        np.savez(dir_to_write+"seds.npz", seds=seds, wavs = rest_wavs, radius_phot = self._radius_phot, temperature_phot = self._temperature_phot)
 
         # Units of `seds` is ergs / s / Angstrom.
         return {'sample_wavelengths': self._sample_wavelengths, 'seds': seds}
